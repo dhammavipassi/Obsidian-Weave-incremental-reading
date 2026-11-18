@@ -1704,7 +1704,7 @@
   "irTagGroup.defaultBadge": "預設",
   "irTagGroup.defaultTagsLabel": "無標籤 · 通用",
   "irSidebar.header.rebalanceTodayBacklogTitle": "整理今日積壓…",
-  "irSidebar.notices.rebalanceTodayBacklogConfirm": "今天共有 {before} 條到期/積壓閱讀點。\n將按目前「每日時間預算 ∩ 每日閱讀點上限」保留約 {keep} 條在今天，其餘 {move} 條移入待放出佇列，之後按日容量逐步放出。\n手動釘在今天的閱讀點不會被移動。",
+  "irSidebar.notices.rebalanceTodayBacklogConfirm": "今天共有 {before} 條可整理的到期/積壓閱讀點（月曆今日列表目前顯示 {calendar} 條）。\n將按目前「每日時間預算 ∩ 每日閱讀點上限」保留約 {keep} 條在今天，其餘 {move} 條移入待放出佇列，之後按日容量逐步放出。\n手動釘在今天的閱讀點不會被移動。\n若月曆條數明顯更多，多半是檢視未收合的殘留，開始整理後會同步重新整理。",
   "irSidebar.notices.rebalanceTodayBacklogConfirmTitle": "整理今日積壓",
   "irSidebar.notices.rebalanceTodayBacklogConfirmAction": "開始整理",
   "irSidebar.notices.rebalanceTodayBacklogDone": "已整理今日積壓：保留 {kept} 條，移入待放出 {moved} 條（其中手動釘住 {pinned} 條未動）",

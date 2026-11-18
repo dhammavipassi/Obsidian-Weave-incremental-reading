@@ -1695,7 +1695,7 @@
   "irTagGroup.defaultBadge": "По умолч.",
   "irTagGroup.defaultTagsLabel": "Без тегов · общий",
   "irSidebar.header.rebalanceTodayBacklogTitle": "Разгрузить сегодняшний backlog…",
-  "irSidebar.notices.rebalanceTodayBacklogConfirm": "Сегодня {before} просроченных/накопленных точек.\nПо текущему бюджету времени ∩ лимиту пунктов оставим около {keep} на сегодня, остальные {move} уйдут в очередь выпуска.\nВручную закреплённые на сегодня не трогаем.",
+  "irSidebar.notices.rebalanceTodayBacklogConfirm": "Сегодня {before} доступных для разбора просроченных/накопленных точек (в списке на сегодня в календаре сейчас {calendar}).\nПо текущему бюджету времени ∩ лимиту пунктов оставим около {keep} на сегодня, остальные {move} уйдут в очередь выпуска.\nВручную закреплённые на сегодня не трогаем.\nЕсли в календаре заметно больше пунктов, это обычно устаревший несжатый список; после запуска разбора представление обновится.",
   "irSidebar.notices.rebalanceTodayBacklogConfirmTitle": "Разгрузить сегодняшний backlog",
   "irSidebar.notices.rebalanceTodayBacklogConfirmAction": "Начать",
   "irSidebar.notices.rebalanceTodayBacklogDone": "Готово: оставлено {kept}, в очередь {moved} (закреплено вручную {pinned})",

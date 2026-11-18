@@ -1695,7 +1695,7 @@
   "irTagGroup.defaultBadge": "デフォルト",
   "irTagGroup.defaultTagsLabel": "タグなし · 共通",
   "irSidebar.header.rebalanceTodayBacklogTitle": "今日の滞留を整理…",
-  "irSidebar.notices.rebalanceTodayBacklogConfirm": "今日は {before} 件の期限/滞留読書ポイントがあります。\n現在の「時間予算 ∩ 件数上限」で約 {keep} 件を今日に残し、残り {move} 件を待機キューへ移します。\n手動で今日に固定した項目は動きません。",
+  "irSidebar.notices.rebalanceTodayBacklogConfirm": "今日は {before} 件の整理可能な期限/滞留読書ポイントがあります（カレンダーの今日リストには現在 {calendar} 件表示）。\n現在の「時間予算 ∩ 件数上限」で約 {keep} 件を今日に残し、残り {move} 件を待機キューへ移します。\n手動で今日に固定した項目は動きません。\nカレンダーの件数が明らかに多い場合は、ビューが縮小されていない古い表示であることが多く、整理を開始すると同期して更新されます。",
   "irSidebar.notices.rebalanceTodayBacklogConfirmTitle": "今日の滞留を整理",
   "irSidebar.notices.rebalanceTodayBacklogConfirmAction": "整理を開始",
   "irSidebar.notices.rebalanceTodayBacklogDone": "整理完了：残す {kept}、待機へ {moved}（手動固定 {pinned} は維持）",

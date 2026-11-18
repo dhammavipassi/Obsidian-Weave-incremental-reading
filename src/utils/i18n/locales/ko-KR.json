@@ -1695,7 +1695,7 @@
   "irTagGroup.defaultBadge": "기본",
   "irTagGroup.defaultTagsLabel": "태그 없음 · 일반",
   "irSidebar.header.rebalanceTodayBacklogTitle": "오늘 적체 정리…",
-  "irSidebar.notices.rebalanceTodayBacklogConfirm": "오늘 만기/적체 읽기 포인트가 {before}개입니다.\n현재 「시간 예산 ∩ 개수 상한」으로 약 {keep}개를 오늘에 남기고 나머지 {move}개를 대기 큐로 옮깁니다.\n오늘에 수동 고정한 항목은 이동하지 않습니다.",
+  "irSidebar.notices.rebalanceTodayBacklogConfirm": "오늘 정리 가능한 만기/적체 읽기 포인트가 {before}개 있습니다(캘린더 오늘 목록에는 현재 {calendar}개 표시).\n현재 「시간 예산 ∩ 개수 상한」으로 약 {keep}개를 오늘에 남기고 나머지 {move}개를 대기 큐로 옮깁니다.\n오늘에 수동 고정한 항목은 이동하지 않습니다.\n캘린더 개수가 확연히 많다면 뷰가 접히지 않은 잔여 표시일 가능성이 크며, 정리를 시작하면 동기화되어 새로 고쳐집니다.",
   "irSidebar.notices.rebalanceTodayBacklogConfirmTitle": "오늘 적체 정리",
   "irSidebar.notices.rebalanceTodayBacklogConfirmAction": "정리 시작",
   "irSidebar.notices.rebalanceTodayBacklogDone": "정리 완료: 유지 {kept}, 대기로 {moved} (수동 고정 {pinned}는 유지)",
