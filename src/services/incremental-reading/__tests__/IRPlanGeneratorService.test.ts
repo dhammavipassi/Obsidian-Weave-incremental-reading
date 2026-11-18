@@ -28,38 +28,6 @@ vi.mock("obsidian", async () => {
 	};
 });
 
-vi.mock("../../../config/paths", () => ({
-	normalizeWeaveParentFolder: (path?: string) => String(path || "").trim(),
-	getV2Paths: () => ({
-		ir: {
-			root: "weave Incremental reading",
-			epub: "weave Incremental reading/epub-reading",
-		},
-	}),
-	getV2PathsFromApp: () => ({
-		ir: {
-			root: "weave Incremental reading",
-			epub: "weave Incremental reading/epub-reading",
-		},
-	}),
-	resolveIRImportFolder: (chunkRoot?: string) =>
-		String(chunkRoot || "weave Incremental reading/chunks"),
-	getPluginPaths: () => ({
-		cache: {
-			incrementalReading: {
-				scheduleIndex: "cache/incremental-reading/schedule-index.json",
-			},
-		},
-	}),
-	getPluginPathsById: () => ({
-		state: {
-			incrementalReading: {
-				epubReaderData: "weave Incremental reading/epub-reader-data.json",
-			},
-		},
-	}),
-}));
-
 vi.mock("../IRScheduleIndexService", () => ({
 	getSharedIRScheduleIndexService: () => ({
 		invalidate: vi.fn(),

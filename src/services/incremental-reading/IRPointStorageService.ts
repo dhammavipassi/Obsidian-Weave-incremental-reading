@@ -420,18 +420,17 @@ export class IRPointStorageService {
 			return;
 		}
 
-		await Promise.all([
-			DirectoryUtils.ensureDirRecursive(this.adapter, this.getPointsDir()),
-			DirectoryUtils.ensureDirRecursive(this.adapter, this.getReaderStateDir()),
-			DirectoryUtils.ensureDirRecursive(
-				this.adapter,
-				this.getReaderArtifactsDir(),
+		const dirs = [
+			this.getPointsDir(),
+			this.getReaderStateDir(),
+			this.getReaderArtifactsDir(),
+			this.getPluginPaths().migration.root,
+		];
+		await Promise.all(
+			dirs.map((dir) =>
+				DirectoryUtils.ensureDirRecursive(this.adapter, dir),
 			),
-			DirectoryUtils.ensureDirRecursive(
-				this.adapter,
-				this.getPluginPaths().migration.root,
-			),
-		]);
+		);
 
 		await Promise.all([
 			this.ensureFile(
