@@ -347,12 +347,8 @@ async function syncCalendarProjectionFromPlannedSchedule(
 		const settingsFingerprint = queryService.getSettingsFingerprint();
 		const workspaceData =
 			await getSharedIRWorkspaceSnapshotService(app).getWorkspaceData();
-		const indexedFingerprint = String(
-			(await getSharedIRScheduleIndexService(app).peekScheduleFingerprint()) ||
-				"",
-		).trim();
 		const scheduleFingerprint =
-			indexedFingerprint || buildScheduleFingerprintFromWorkspace(workspaceData);
+			buildScheduleFingerprintFromWorkspace(workspaceData);
 		const allDeckIds = (schedule.deckIds || [])
 			.map((deckId) => String(deckId || "").trim())
 			.filter(Boolean);

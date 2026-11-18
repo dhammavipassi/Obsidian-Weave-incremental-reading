@@ -7,6 +7,7 @@ import {
 	toCalendarMonthKey,
 } from "./IRCalendarProjectionUtils";
 import { mergeMaterialsByDateMaps } from "./IRCalendarDayQueueMerge";
+import { getSharedIRScheduleIndexService } from "./IRScheduleIndexService";
 import type { ScheduleItem } from "./IRCalendarScheduleItem";
 
 export const IR_CALENDAR_DAY_INDEX_VERSION = "2.1.0";
@@ -303,6 +304,22 @@ export class IRCalendarDayIndexService {
 	 * L2 committed-due 同步不得用空切片/缩减切片冲掉 L1 已写入的全日队列；
 	 * 权威缩减只走 patchDaySlices。
 	 */
+	/**
+	 * 投影的 freshness 与读取端同源：读取端比对调度索引指纹，写入端在调度
+	 * 索引可用时一律沿用同一值，否则两侧永远命中不了。
+	 */
+	private async resolveScheduleFingerprint(fallback: string): Promise<string> {
+		try {
+			const indexed = String(
+				(await getSharedIRScheduleIndexService(this.app).peekScheduleFingerprint()) ||
+					"",
+			).trim();
+			return indexed || String(fallback || "").trim();
+		} catch {
+			return String(fallback || "").trim();
+		}
+	}
+
 	async syncFromMaterialsByDate(input: {
 		cacheKey: string;
 		settingsFingerprint: string;
@@ -371,7 +388,9 @@ export class IRCalendarDayIndexService {
 
 		await this.writeScope(cacheKey, {
 			settingsFingerprint: input.settingsFingerprint,
-			scheduleFingerprint: input.scheduleFingerprint,
+			scheduleFingerprint: await this.resolveScheduleFingerprint(
+				input.scheduleFingerprint,
+			),
 			savedAt: new Date().toISOString(),
 			daySummaries: mergedDaySummaries,
 			monthSummaries: buildMonthSummariesFromDayCounts(mergedDaySummaries),
@@ -410,7 +429,9 @@ export class IRCalendarDayIndexService {
 
 		await this.writeScope(cacheKey, {
 			settingsFingerprint: input.settingsFingerprint,
-			scheduleFingerprint: input.scheduleFingerprint,
+			scheduleFingerprint: await this.resolveScheduleFingerprint(
+				input.scheduleFingerprint,
+			),
 			savedAt: new Date().toISOString(),
 			daySummaries: mergedDaySummaries,
 			monthSummaries: buildMonthSummariesFromDayCounts(mergedDaySummaries),
