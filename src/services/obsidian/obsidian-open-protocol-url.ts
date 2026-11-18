@@ -39,10 +39,10 @@ export function openObsidianProtocolUrl(_app: App, url: string): boolean {
 		return false;
 	}
 
-	const anchor = activeDocument.body.createEl("a", {
-		cls: "internal-link weave-protocol-open-anchor",
-		attr: { href: normalized },
-	});
+	const anchor = activeDocument.createElement("a");
+	anchor.className = "internal-link weave-protocol-open-anchor";
+	anchor.href = normalized;
+	activeDocument.body.appendChild(anchor);
 	anchor.click();
 	anchor.remove();
 	return true;
