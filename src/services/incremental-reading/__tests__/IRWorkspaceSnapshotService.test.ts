@@ -360,6 +360,9 @@ describe("IRWorkspaceSnapshotService", () => {
 			linkedNotePaths: ["Notes/EPUB.md"],
 		});
 
+		// 旧书签文件只在用户打开 IR 界面（延迟写入阶段）迁移，冷启动不写 vault。
+		await pointStorage.runDeferredVaultMutations();
+
 		const service = new IRWorkspaceSnapshotService(app);
 		const workspaceData = await service.getWorkspaceData();
 		const overview = await service.getDeckOverview();

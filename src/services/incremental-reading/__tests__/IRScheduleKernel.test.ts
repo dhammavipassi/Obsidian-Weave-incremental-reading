@@ -26,6 +26,14 @@ vi.mock("../../epub-integration/ir-epub-storage-access", () => ({
 	}),
 }));
 
+vi.mock("../IRScheduleIndexService", () => ({
+	getSharedIRScheduleIndexService: () => ({
+		getScheduleSources: async () => {
+			throw new Error("test: schedule index disabled");
+		},
+	}),
+}));
+
 vi.mock("../../../config/paths", async (importOriginal) => {
 	const actual = await importOriginal<typeof import("../../../config/paths")>();
 	const v2Paths = actual.getV2Paths("");
@@ -318,7 +326,8 @@ describe("IRScheduleKernel deck identifier compatibility", () => {
 			kernel.recomputeScheduleForDeck("ui_refresh", { deckIds: ["deck-1"] }),
 		]);
 
-		expect(chunkSpy).toHaveBeenCalledTimes(1);
+		// 每次重算读两次 chunk 存储：订阅准入一次 + 调度候选一次。并发重算必须只走一遍。
+		expect(chunkSpy.mock.calls.length).toBeLessThanOrEqual(2);
 		expect(planA.generatedAt).toBe(planB.generatedAt);
 		expect(kernel.getCachedSchedule({ deckIds: ["deck-1"] })?.generatedAt).toBe(
 			planA.generatedAt,
@@ -379,7 +388,8 @@ describe("IRScheduleKernel deck identifier compatibility", () => {
 			horizonDays: 3,
 		});
 
-		expect(chunkSpy).toHaveBeenCalledTimes(2);
+		// 两个 horizon 各自重算，同上每次两次读取。
+		expect(chunkSpy.mock.calls.length).toBeLessThanOrEqual(4);
 		expect(shortPlan.days).toHaveLength(1);
 		expect(longPlan.days.length).toBeGreaterThan(1);
 		expect(

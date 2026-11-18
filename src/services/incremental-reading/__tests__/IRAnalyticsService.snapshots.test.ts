@@ -24,38 +24,38 @@ const mockState = vi.hoisted(() => ({
 }));
 
 vi.mock("../IRStorageService", () => ({
-	IRStorageService: vi.fn().mockImplementation(() => ({
-		initialize: vi.fn(),
-		getAllDecks: vi.fn(async () => mockState.decks),
-		getAllBlocks: vi.fn(async () => mockState.blocks),
-		getAllSources: vi.fn(async () => mockState.sources),
-		getAllChunkData: vi.fn(async () => mockState.chunks),
-		getAllChunkDataWithSync: vi.fn(async () => mockState.chunks),
-		getHistory: vi.fn(async () => mockState.history),
-		getStudySessions: vi.fn(async () => mockState.studySessions),
-	})),
+	IRStorageService: class {
+		initialize = vi.fn();
+		getAllDecks = vi.fn(async () => mockState.decks);
+		getAllBlocks = vi.fn(async () => mockState.blocks);
+		getAllSources = vi.fn(async () => mockState.sources);
+		getAllChunkData = vi.fn(async () => mockState.chunks);
+		getAllChunkDataWithSync = vi.fn(async () => mockState.chunks);
+		getHistory = vi.fn(async () => mockState.history);
+		getStudySessions = vi.fn(async () => mockState.studySessions);
+	},
 }));
 
 vi.mock("../IRPdfBookmarkTaskService", () => ({
-	IRPdfBookmarkTaskService: vi.fn().mockImplementation(() => ({
-		initialize: vi.fn(),
-		getAllTasks: vi.fn(async () => []),
-	})),
+	IRPdfBookmarkTaskService: class {
+		initialize = vi.fn();
+		getAllTasks = vi.fn(async () => []);
+	},
 }));
 
 vi.mock("../IREpubBookmarkTaskService", () => ({
-	IREpubBookmarkTaskService: vi.fn().mockImplementation(() => ({
-		initialize: vi.fn(),
-		getAllTasks: vi.fn(async () => []),
-	})),
+	IREpubBookmarkTaskService: class {
+		initialize = vi.fn();
+		getAllTasks = vi.fn(async () => []);
+	},
 }));
 
 vi.mock("../IRMonitoringService", () => ({
-	IRMonitoringService: vi.fn().mockImplementation(() => ({
-		load: vi.fn(),
-		getSummaryReport: vi.fn(() => mockState.monitoringReport),
-		getDecisionCalibrationSummary: vi.fn(() => mockState.calibration),
-	})),
+	IRMonitoringService: class {
+		load = vi.fn();
+		getSummaryReport = vi.fn(() => mockState.monitoringReport);
+		getDecisionCalibrationSummary = vi.fn(() => mockState.calibration);
+	},
 }));
 
 vi.mock("../IRProjectedScheduleSummary", async () => {
