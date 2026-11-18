@@ -42,7 +42,14 @@ vi.mock("../IRCalendarQueryService", () => ({
 vi.mock("../IRScheduleIndexService", () => ({
 	getSharedIRScheduleIndexService: () => ({
 		invalidate: scheduleIndexInvalidateMock,
-		peekScheduleFingerprint: async () => "schedule-fp",
+	}),
+}));
+
+vi.mock("../IRProjectedScheduleSummary", () => ({
+	getProjectedScheduleSummary: async (_app: unknown, options: any) => ({
+		schedule: options?.schedule ?? { days: [], deckIds: [], generatedAt: 0 },
+		dayLoadsByDate: new Map(),
+		dayLoadsByDeckId: new Map(),
 	}),
 }));
 
@@ -64,6 +71,17 @@ vi.mock("../IRDueDateIndexService", () => ({
 	getSharedIRDueDateIndexService: () => ({
 		invalidateAsync: vi.fn(),
 	}),
+	formatDueDateKeyFromTimestamp: (timestamp?: number | null) => {
+		if (!timestamp || !Number.isFinite(timestamp) || timestamp <= 0) {
+			return null;
+		}
+		const date = new Date(timestamp);
+		return [
+			date.getFullYear(),
+			String(date.getMonth() + 1).padStart(2, "0"),
+			String(date.getDate()).padStart(2, "0"),
+		].join("-");
+	},
 }));
 
 vi.mock("../../../utils/logger", () => ({
@@ -189,37 +207,6 @@ describe("IRScheduleRefreshService", () => {
 		const [event] = (globalThis as any).window.dispatchEvent.mock.calls[0];
 		expect(event.type).toBe(IR_DATA_UPDATED_EVENT);
 		expect(event.detail).toEqual(detail);
-	});
-
-	it("projects the full schedule under the schedule-index fingerprint and the all-decks key", async () => {
-		const item = {
-			id: "a",
-			title: "A",
-			sourceFile: "a.md",
-			priority: 1,
-			intervalDays: 1,
-			scheduleStatus: "scheduled",
-			nextRepDate: 0,
-			nextReviewDate: null,
-			topicKey: "t",
-			estimatedMinutes: 1,
-			explanation: {} as any,
-		};
-		recomputeScheduleForDeckMock.mockResolvedValue({
-			generatedAt: 1,
-			deckIds: ["deck-1", "deck-2"],
-			days: [{ dateKey: "2026-05-29", items: [item] }],
-			itemsByDate: new Map([["2026-05-29", [item]]]),
-		});
-
-		await recomputeAndBroadcastIRData({} as any, "ui_refresh");
-
-		expect(projectionSyncMock).toHaveBeenCalledWith(
-			expect.objectContaining({
-				cacheKey: "__all__::__default__",
-				scheduleFingerprint: "schedule-fp",
-			}),
-		);
 	});
 
 	it("broadcasts a lightweight IR update without full cache invalidation by default", () => {

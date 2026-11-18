@@ -15,6 +15,16 @@ vi.mock("../../../config/paths", () => ({
 	})),
 }));
 
+const peekScheduleFingerprintMock = vi.fn<[], Promise<string | null>>(
+	async () => null,
+);
+
+vi.mock("../IRScheduleIndexService", () => ({
+	getSharedIRScheduleIndexService: () => ({
+		peekScheduleFingerprint: () => peekScheduleFingerprintMock(),
+	}),
+}));
+
 vi.mock("../../../utils/directory-utils", () => ({
 	DirectoryUtils: {
 		ensureDirForFile: vi.fn(async () => undefined),
@@ -81,6 +91,27 @@ describe("IRCalendarDayIndexService", () => {
 			"今日阅读点",
 		);
 		expect(tier0?.daySummaries.get("2026-05-29")?.totalCount).toBe(1);
+	});
+
+	it("stamps the schedule-index fingerprint so readers can hydrate", async () => {
+		peekScheduleFingerprintMock.mockResolvedValueOnce("fnv1a:indexed");
+		const service = new IRCalendarDayIndexService(app);
+		await service.syncFromMaterialsByDate({
+			cacheKey: "__all__::__default__",
+			settingsFingerprint: "fp-settings",
+			scheduleFingerprint: "fnv1a:workspace",
+			materialsByDate: new Map([["2026-05-29", []]]),
+			priorityDateKeys: ["2026-05-29"],
+		});
+		await service.flushPendingWrites();
+		const stored = JSON.parse(
+			files.get(
+				".obsidian/plugins/weave-incremental-reading/cache/ir-calendar-day-index.json",
+			) as string,
+		);
+		expect(
+			stored.scopes["__all__::__default__"].scheduleFingerprint,
+		).toBe("fnv1a:indexed");
 	});
 
 	it("drops tier-0 hydration when settings fingerprint changes", async () => {
