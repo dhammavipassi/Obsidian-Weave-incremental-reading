@@ -68,7 +68,10 @@ function parseDotEnv(content) {
 }
 
 function resolveVaultPath(processEnv = process.env) {
-	return processEnv.OBSIDIAN_VAULT_PATH?.trim() || readEnvValueFromDotEnv("OBSIDIAN_VAULT_PATH");
+	if (Object.prototype.hasOwnProperty.call(processEnv, "OBSIDIAN_VAULT_PATH")) {
+		return processEnv.OBSIDIAN_VAULT_PATH?.trim() || "";
+	}
+	return readEnvValueFromDotEnv("OBSIDIAN_VAULT_PATH");
 }
 
 function resolvePluginIdFromManifest() {
