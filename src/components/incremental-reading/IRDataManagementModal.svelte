@@ -101,6 +101,7 @@
 
   async function handleRescanClick(): Promise<void> {
     helpOpen = false;
+    await plugin.refreshIRDeckIndexFromVault({ trigger: 'manual_rescan', recompute: true });
     await refreshScan();
     await refreshLegacySummary();
     await refreshPointFormatScan();

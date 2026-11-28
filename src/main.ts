@@ -1789,8 +1789,8 @@ export default class StandaloneIncrementalReadingPlugin
 		}, 250);
 	}
 
-	private async refreshIRDeckIndexFromVault(options: {
-		trigger: "startup" | "vault_change";
+	public async refreshIRDeckIndexFromVault(options: {
+		trigger: "startup" | "vault_change" | "manual_rescan";
 		recompute: boolean;
 		changedPaths?: string[];
 		removedPaths?: string[];
@@ -1834,7 +1834,8 @@ export default class StandaloneIncrementalReadingPlugin
 				((options.changedPaths?.length ?? 0) > 0 ||
 					(options.removedPaths?.length ?? 0) > 0);
 			const isStartupRebuild =
-				options.trigger === "startup" && options.recompute;
+				(options.trigger === "startup" || options.trigger === "manual_rescan") &&
+				options.recompute;
 			if (!hasIndexChanges && !hasVaultPathTouches && !isStartupRebuild) {
 				return;
 			}

@@ -90,6 +90,16 @@ export function remapEmbeddedVaultPathInText(
 		next = next.split(encodedOld).join(encodedNew);
 	}
 
+	const slashEncodedOld = normalizedOldPath.split("/").map(encodeURIComponent).join("/");
+	const slashEncodedNew = normalizedNewPath.split("/").map(encodeURIComponent).join("/");
+	if (
+		slashEncodedOld !== normalizedOldPath &&
+		slashEncodedOld !== encodedOld &&
+		next.includes(slashEncodedOld)
+	) {
+		next = next.split(slashEncodedOld).join(slashEncodedNew);
+	}
+
 	// Wiki links often omit the extension: [[Notes/Demo#^x]] for Notes/Demo.md
 	const oldNoExt = stripExtension(normalizedOldPath);
 	const newNoExt = stripExtension(normalizedNewPath);
